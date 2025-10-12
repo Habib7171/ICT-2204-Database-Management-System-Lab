@@ -1,0 +1,390 @@
+mysql> USE IIT;
+Database changed
+mysql> SHOW TABLES;
+Empty set (0.00 sec)
+
+mysql> CREATE TABLE Student (
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> CREATE TABLE Customer (
+    -> CUSTID INT;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> CREATE TABLE Customer (
+    ->  CUSTID INT,
+    -> CUSTNAME VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO Customer(CUSTID, CUSTNAME)
+    -> VALUES
+    -> (1, 'Mobin'),
+    -> (2, 'Sifat'),
+    -> (3, 'Nahid');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE TEST(
+    -> ID INT,
+    -> NAME VARCHAR(40),
+    -> CODE VARCHAR(30),
+    -> PRIMARY KEY(ID, CODE)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DESC TEST;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ID    | int         | NO   | PRI | NULL    |       |
+| NAME  | varchar(40) | YES  |     | NULL    |       |
+| CODE  | varchar(30) | NO   | PRI | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE TABLE CUST(
+    -> CUSTID INT PRIMARY KEY,
+    -> CUSTNAME VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DESC CUST;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| CUSTID   | int         | NO   | PRI | NULL    |       |
+| CUSTNAME | varchar(50) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> CREATE TABLE USERTYPE(
+    -> USERTYPE_ID INT PRIMARY KEY,
+    -> USERTYPE_NAME VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DESC USERTYPE;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| USERTYPE_ID   | int         | NO   | PRI | NULL    |       |
+| USERTYPE_NAME | varchar(50) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO USERTYPE(USERTYPE_ID, USERTYPE_NAME)
+    -> VALUES
+    -> (1, 'ABC'),
+    -> (2, 'EFG'),
+    -> (3, 'XYZ'),
+    -> (4, 'MNO');
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE USER (
+    -> USERID INT PRIMARY KEY,
+    -> USERNAME VARCHAR(50),
+    -> DOB VARCHAR(20),
+    -> USERTYPE_ID INT,
+    -> FOREIGN KEY(USERTYPE_ID) REFERENCES USERTYPE(USERTYPE_ID)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO USER(USERID, USERNAME, DOB, USERTYPE_ID)
+    -> VALUES
+    -> (101, 'QWE', '2020-01-01', 1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO USER(USERID, USERNAME, DOB, USERTYPE_ID)
+    -> VALUES
+    -> (102, 'RTY', '2000-01-01', 5);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`iit`.`user`, CONSTRAINT `user_ibfk_1` FOREIGN KEY (`USERTYPE_ID`) REFERENCES `usertype` (`USERTYPE_ID`))
+mysql> SELECT* FROM USER;
++--------+----------+------------+-------------+
+| USERID | USERNAME | DOB        | USERTYPE_ID |
++--------+----------+------------+-------------+
+|    101 | QWE      | 2020-01-01 |           1 |
++--------+----------+------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT* FROM USERTYPE;
++-------------+---------------+
+| USERTYPE_ID | USERTYPE_NAME |
++-------------+---------------+
+|           1 | ABC           |
+|           2 | EFG           |
+|           3 | XYZ           |
+|           4 | MNO           |
++-------------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE USER_2 (
+    -> USERID INT PRIMARY KEY,
+    -> USERNAME VARCHAR(50),
+    -> DOB VARCHAR(20),
+    -> USERTYPE_ID INT,
+    -> CONSTRAINT fk_user FOREIGN KEY(USERTYPE_ID) REFERENCES USERTYPE(USERTYPE_ID)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE HALL (
+    -> HALL_ID INT,
+    -> HALL_NAME VARCHAR(40)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TABLE HALL (
+    -> HALL_ID INT,
+    -> HALL_NAME VARCHAR(40) PRIMARY KEY
+    -> );
+ERROR 1050 (42S01): Table 'hall' already exists
+mysql> DROP TABLE HALL;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE HALL (
+    -> HALL_ID INT,
+    -> HALL_NAME VARCHAR(40) PRIMARY KEY
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO HALL(HALL_ID, HALL_NAME)
+    -> VALUES
+    -> (1, 'KAZI NAZRUL HALL'),
+    -> (2, 'BHASHANI HALL'),
+    -> (3, 'SALAM BARKAT HALL'),
+    -> (4, 'RAFIQ JABBER HALL');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT* FROM HALL;
++---------+-------------------+
+| HALL_ID | HALL_NAME         |
++---------+-------------------+
+|       2 | BHASHANI HALL     |
+|       1 | KAZI NAZRUL HALL  |
+|       4 | RAFIQ JABBER HALL |
+|       3 | SALAM BARKAT HALL |
++---------+-------------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE STUDENT (
+    -> STUDENT_ID INT PRIMARY KEY,
+    -> STUDENT_NAME VARCHAR(50),
+    -> HALL_NAME VARCHAR(40),
+    -> FOREIGN KEY (HALL_NAME) REFERENCES HALL(HALL_NAME)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO STUDENT(STUDENT_ID, STUDENT_NAME, HALL_NAME)
+    -> VALUES
+    -> (1957, 'TUHIN', 'BHASHANI HALL'),
+    -> (1968, 'HABIB', 'KAZI NAZRUL HALL'),
+    -> (1982, 'SIFAT', 'SALAM BARKAT HALL'),
+    -> (1977, 'NOORA', 'RAFIQ JABBER HALL);
+    '> ;
+    '> ;
+    '> ;
+    '> ');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`iit`.`student`, CONSTRAINT `student_ibfk_1` FOREIGN KEY (`HALL_NAME`) REFERENCES `hall` (`HALL_NAME`))
+mysql> INSERT INTO STUDENT(STUDENT_ID, STUDENT_NAME, HALL_NAME)
+    -> VALUES
+    -> (1957, 'TUHIN', 'BHASHANI HALL'),
+    -> (1968, 'HABIB', 'KAZI NAZRUL HALL'),
+    -> (1982, 'SIFAT', 'SALAM BARKAT HALL'),
+    -> (1977, 'NOORA', 'RAFIQ JABBER HALL');
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT* FROM STUDENT;
++------------+--------------+-------------------+
+| STUDENT_ID | STUDENT_NAME | HALL_NAME         |
++------------+--------------+-------------------+
+|       1957 | TUHIN        | BHASHANI HALL     |
+|       1968 | HABIB        | KAZI NAZRUL HALL  |
+|       1977 | NOORA        | RAFIQ JABBER HALL |
+|       1982 | SIFAT        | SALAM BARKAT HALL |
++------------+--------------+-------------------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO STUDENT(STUDENT_ID, STUDENT_NAME, HALL_NAME)
+    -> VALUES
+    -> (1957, 'TUHIN', 'BHASHANI HALL'),
+    -> (1968, 'HABIB', 'KAZI NAZRUL HALL'),
+    -> (1982, 'SIFAT', 'SALAM BARKAT HALL'),
+    -> (1977, 'NOORA', 'ROKEYA HALL');
+ERROR 1062 (23000): Duplicate entry '1957' for key 'student.PRIMARY'
+mysql> CREATE TABLE BRANCH(
+    -> BRANCH_ID INT PRIMARY KEY,
+    -> BRANCH_NAME VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO BRANCH(BRANCH_ID, BRANCH_NAME)
+    -> VALUES
+    -> (1, 'DHAKA'),
+    -> (2, 'CHATTOGRAM'),
+    -> (3, 'SYLHET'),
+    -> (4, 'KHULNA');
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE EMPLOYEE(
+    -> EMPLOYEE_ID INT PRIMARY KEY,
+    -> EMPLOYEE_CODE VARCHAR(40),
+    -> BRANCH_ID INT,
+    -> FOREIGN KEY(BRANCH_ID) REFERENCES BRANCH(BRANCH_ID)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO EMPLOYEE(EMPLOYEE_ID, EMPLOYEE_CODE, BRANCH_ID)
+    -> VALUES
+    -> (1001, 'DHA1001', 1),
+    -> (1002, 'CHA1002', 2),
+    -> (1003, 'SYL1003', 3),
+    -> (1004, 'KHU1004', 4);
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO EMPLOYEE(EMPLOYEE_ID, EMPLOYEE_CODE, BRANCH_ID)
+    -> VALUES
+    -> (1001, 'DHA1001', 1),
+    -> (1002, 'CHA1002', 2),
+    -> (1003, 'SYL1003', 3),
+    -> (1004, 'KHU1004 , 5);
+    '> 
+    '> ');
+ERROR 1136 (21S01): Column count doesn't match value count at row 4
+mysql> INSERT INTO EMPLOYEE(EMPLOYEE_ID, EMPLOYEE_CODE, BRANCH_ID)
+    -> VALUES
+    -> (1001, 'DHA1001', 1),
+    -> (1002, 'CHA1002', 2),
+    -> (1003, 'SYL1003', 3),
+    -> (1004, 'KHU1004 , 5);
+    '> ');
+ERROR 1136 (21S01): Column count doesn't match value count at row 4
+mysql> INSERT INTO EMPLOYEE(EMPLOYEE_ID, EMPLOYEE_CODE, BRANCH_ID)
+    -> VALUES
+    -> (1001, 'DHA1001', 1),
+    -> (1002, 'CHA1002', 2),
+    -> (1003, 'SYL1003', 3),
+    -> (1005, 'RAJ1004 , 5);
+    '> ');
+ERROR 1136 (21S01): Column count doesn't match value count at row 4
+mysql> INSERT INTO EMPLOYEE(EMPLOYEE_ID, EMPLOYEE_CODE, BRANCH_ID)
+    -> VALUES
+    -> (1001, 'DHA1001', 1),
+    -> (1002, 'CHA1002', 2),
+    -> (1003, 'SYL1003', 3),
+    -> (1005, 'RAJ1004' , 5);
+ERROR 1062 (23000): Duplicate entry '1001' for key 'employee.PRIMARY'
+mysql> INSERT INTO EMPLOYEE(EMPLOYEE_ID, EMPLOYEE_CODE, BRANCH_ID)
+    -> VALUES
+    -> (1005, 'RAJ1004' , 5);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`iit`.`employee`, CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`BRANCH_ID`) REFERENCES `branch` (`BRANCH_ID`))
+mysql> CREATE TABLE TEST1(
+    -> TEST_ID INT,
+    -> TEST_NAME VARCHAR(40),
+    -> AGE SMALLINT,
+    -> CHECK(AGE>=18)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO TEST1(TEST_ID, TEST_NAME, AGE)
+    -> VALUES
+    -> (1, 'SRT', 21);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO TEST1(TEST_ID, TEST_NAME, AGE)
+    -> VALUES
+    -> (1, 'SRT',11);
+ERROR 3819 (HY000): Check constraint 'test1_chk_1' is violated.
+mysql> DROP TEST1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TEST1' at line 1
+mysql> DROP TABLE TEST1;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE TEST1(
+    -> TEST_ID INT,
+    -> TEST_NAME VARCHAR(40) DEFAULT 'ECG',
+    -> AGE SMALLINT,
+    -> CHECK(AGE>=18),
+    -> TEST_DATE DATETIME DEFAULT CURRENT_TIMESTAMP
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO TEST1(
+    -> TEST_ID,
+    -> AGE)
+    -> VALUES
+    -> (101, 21);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT* FROM TEST1;
++---------+-----------+------+---------------------+
+| TEST_ID | TEST_NAME | AGE  | TEST_DATE           |
++---------+-----------+------+---------------------+
+|     101 | ECG       |   21 | 2025-10-12 12:13:45 |
++---------+-----------+------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE TEST2 (
+    -> ID INT,
+    -> NAME VARCHAR(40),
+    -> AGE SMALLINT,
+    -> CHECK(AGE<=15)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO TEST2(ID, NAME, AGE)
+    -> VALUES
+    -> (111, 'VEL', 17);
+ERROR 3819 (HY000): Check constraint 'test2_chk_1' is violated.
+mysql> INSERT INTO TEST2(ID, NAME, AGE)
+    -> VALUES
+    -> (111, 'VEL', 17);
+ERROR 3819 (HY000): Check constraint 'test2_chk_1' is violated.
+mysql> DROP TABLE TEST2;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE PSYCHOLOGICAL (
+    -> ID INT,
+    -> NAME VARCHAR(20),
+    -> AGE SMALLINT,
+    -> CHECK(AGE>15)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO PSYCHOLOGICAL (ID, NAME, AGE)
+    -> VALUES
+    -> (101, 'REBEL', 18);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PSYCHOLOGICAL (ID, NAME, AGE)
+    -> VALUES
+    -> (101, 'REBEL', 14);
+ERROR 3819 (HY000): Check constraint 'psychological_chk_1' is violated.
+mysql> DROP TABLE PSYCHOLOGICAL;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE PSYCHOLOGICAL (
+    -> ID INT,
+    -> NAME VARCHAR(20) DEFAULT 'REBECCA',
+    -> AGE SMALLINT,
+    -> CHECK(AGE>15),
+    -> TEST_DATE DATETIME DEFAULT CURRENT_TIMESTAMP
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO PSYCHOLOGICAL (ID, AGE)
+    -> VALUES
+    -> (102, 20);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT* FROM PSYCHOLOGICAL;
++------+---------+------+---------------------+
+| ID   | NAME    | AGE  | TEST_DATE           |
++------+---------+------+---------------------+
+|  102 | REBECCA |   20 | 2025-10-12 12:24:05 |
++------+---------+------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> notee;
