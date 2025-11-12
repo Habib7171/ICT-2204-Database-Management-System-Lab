@@ -1,0 +1,407 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| iit                |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> use iit;
+Database changed
+mysql> show tables;
++---------------+
+| Tables_in_iit |
++---------------+
+| branch        |
+| cust          |
+| customer      |
+| employee      |
+| hall          |
+| psychological |
+| student       |
+| test          |
+| test1         |
+| truncate      |
+| user          |
+| user_2        |
+| usertype      |
++---------------+
+13 rows in set (0.00 sec)
+
+mysql> desc student;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| STUDENT_ID   | int         | NO   | PRI | NULL    |       |
+| STUDENT_NAME | varchar(50) | YES  |     | NULL    |       |
+| HALL_NAME    | varchar(40) | YES  | MUL | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> CREATE PUPIL (ID INT, NAME VARCHAR(20));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PUPIL (ID INT, NAME VARCHAR(20))' at line 1
+mysql> CREATE TABLE PUPIL (ID INT, NAME VARCHAR(20));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> ALTER TABLE PUPIL ADD PUP_CODE VARCHAR(20));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> ALTER TABLE PUPIL ADD PUP_CODE VARCHAR(20);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO PUPIL (ID, NAME, STU_CODE) VALUES (1976, 'RIFAT', 'RIF-1976');
+ERROR 1054 (42S22): Unknown column 'STU_CODE' in 'field list'
+mysql> INSERT INTO PUPIL (ID, NAME, PUP_CODE) VALUES (1976, 'RIFAT', 'RIF-1976');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM PUPIL;
++------+-------+----------+
+| ID   | NAME  | PUP_CODE |
++------+-------+----------+
+| 1976 | RIFAT | RIF-1976 |
++------+-------+----------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO PUPILL (ID, NAME, PUP_CODE) VALUES (1977, 'NOOR', 'NOOR-1977');
+ERROR 1146 (42S02): Table 'iit.pupill' doesn't exist
+mysql> INSERT INTO PUPIL (ID, NAME, PUP_CODE) VALUES (1977, 'NOOR', 'NOOR-1977');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT* FROM PUPIL;
++------+-------+-----------+
+| ID   | NAME  | PUP_CODE  |
++------+-------+-----------+
+| 1976 | RIFAT | RIF-1976  |
+| 1977 | NOOR  | NOOR-1977 |
++------+-------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> UPDATE PUPIL SET PUP_CODE = 'N0-1977' WHERE ID = 1977;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT* FROM PUPIL;
++------+-------+----------+
+| ID   | NAME  | PUP_CODE |
++------+-------+----------+
+| 1976 | RIFAT | RIF-1976 |
+| 1977 | NOOR  | N0-1977  |
++------+-------+----------+
+2 rows in set (0.00 sec)
+
+mysql> ALTER TABLE PUPIL DROP COLUMN PUP_CODE;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT* FROM PUPIL;
++------+-------+
+| ID   | NAME  |
++------+-------+
+| 1976 | RIFAT |
+| 1977 | NOOR  |
++------+-------+
+2 rows in set (0.00 sec)
+
+mysql> ALTER TABLE PUPIL ADD CONSTRAINT PK_PUP PRIMARY KEY(ID);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC PUPIL;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ID    | int         | NO   | PRI | NULL    |       |
+| NAME  | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> CREATE TABLE CLASS (ID INT, CLASS INT, SEC VARCHAR(10));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DESC CLASS;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ID    | int         | YES  |     | NULL    |       |
+| CLASS | int         | YES  |     | NULL    |       |
+| SEC   | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE CLASS ADD CONSTRAINT PK_PUP FOREIGN KEY(ID) REFERENCES PUPIL(ID);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC CLASS;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ID    | int         | YES  | MUL | NULL    |       |
+| CLASS | int         | YES  |     | NULL    |       |
+| SEC   | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE CLASS ADD CONSTRAINT ASD PRIMARY KEY(ID);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC CLASS;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ID    | int         | NO   | PRI | NULL    |       |
+| CLASS | int         | YES  |     | NULL    |       |
+| SEC   | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO CLASS (ID, CLASS, SEC) VALUES (101, 11, 'A'), (102, 12, 'B');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`iit`.`class`, CONSTRAINT `PK_PUP` FOREIGN KEY (`ID`) REFERENCES `pupil` (`ID`))
+mysql> INSERT INTO CLASS (ID, CLASS, SEC) VALUES (1976, 11, 'A'), (1977, 12, 'B');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT* FROM CLASS;
++------+-------+------+
+| ID   | CLASS | SEC  |
++------+-------+------+
+| 1976 |    11 | A    |
+| 1977 |    12 | B    |
++------+-------+------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO PUPIL (ID, NAME) VALUES (1978, 'MAHI');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO CLASS (ID, CLASS, SEC) VALUES (1978, 12, 'C');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT* FROM CLASS;
++------+-------+------+
+| ID   | CLASS | SEC  |
++------+-------+------+
+| 1976 |    11 | A    |
+| 1977 |    12 | B    |
+| 1978 |    12 | C    |
++------+-------+------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE TABLE EVALUATION (ID INT, NAME VARCHAR(20));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> ALTER TABLE EVALUATION ADD COLUMN CODE INT PRIMARY KEY;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC EVALUATION;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ID    | int         | YES  |     | NULL    |       |
+| NAME  | varchar(20) | YES  |     | NULL    |       |
+| CODE  | int         | NO   | PRI | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE EVALUATION DROP CODE;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC EVALUATION;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ID    | int         | YES  |     | NULL    |       |
+| NAME  | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> ALTER TABLE EVALUATION ADD COLUMN CODE INT, ADD CONSTRAINT PK_CODE PRIMARY KEY(CODE);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC EVALUATION;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ID    | int         | YES  |     | NULL    |       |
+| NAME  | varchar(20) | YES  |     | NULL    |       |
+| CODE  | int         | NO   | PRI | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE EVALUATION DROP CODE;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO EVALUATION (ID, NAME) VALUES (101, 'SHAZAM'), (102, 'REBEL');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE EVALUATION ADD COLUMN CODE INT, ADD CONSTRAINT PK_CODE PRIMARY KEY(CODE);
+ERROR 1062 (23000): Duplicate entry '0' for key 'evaluation.PRIMARY'
+mysql> DELETE FROM EVALUATION WHERE NAME = 'REBEL';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> ALTER TABLE EVALUATION ADD COLUMN CODE INT, ADD CONSTRAINT PK_CODE PRIMARY KEY(CODE);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT* FROM EVALUATION;
++------+--------+------+
+| ID   | NAME   | CODE |
++------+--------+------+
+|  101 | SHAZAM |    0 |
++------+--------+------+
+1 row in set (0.00 sec)
+
+mysql> ALTER TABLE EVALUATION DROP CODE;
+Query OK, 1 row affected (0.07 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE EVALUATION ADD COLUMN CODE INT;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE EVALUATION ADD COLUMN CODE INT, ADD CONSTRAINT PK_CODE PRIMARY KEY(CODE, ID);
+ERROR 1060 (42S21): Duplicate column name 'CODE'
+mysql> ALTER TABLE EVALUATION DROP CODE;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE EVALUATION ADD COLUMN CODE INT, ADD CONSTRAINT PK_CODE PRIMARY KEY(CODE, ID);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC EVALUATION;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ID    | int         | NO   | PRI | NULL    |       |
+| NAME  | varchar(20) | YES  |     | NULL    |       |
+| CODE  | int         | NO   | PRI | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE DROP NAME;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DROP NAME' at line 1
+mysql> ALTER TABLE EVALUATION DROP NAME;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC EVALUATION;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| ID    | int  | NO   | PRI | NULL    |       |
+| CODE  | int  | NO   | PRI | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> SHOW TABLES;
++---------------+
+| Tables_in_iit |
++---------------+
+| branch        |
+| class         |
+| cust          |
+| customer      |
+| employee      |
+| evaluation    |
+| hall          |
+| psychological |
+| pupil         |
+| student       |
+| test          |
+| test1         |
+| truncate      |
+| user          |
+| user_2        |
+| usertype      |
++---------------+
+16 rows in set (0.00 sec)
+
+mysql> DESC PUPIL;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ID    | int         | NO   | PRI | NULL    |       |
+| NAME  | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> DESC CLASS;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| ID    | int         | NO   | PRI | NULL    |       |
+| CLASS | int         | YES  |     | NULL    |       |
+| SEC   | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT S.ID, CLASS, SEC, NAME FROM STUDENT S, CLASS AS C;
+ERROR 1054 (42S22): Unknown column 'S.ID' in 'field list'
+mysql> SELECT S.ID, CLASS, SEC, NAME FROM STUDENT AS S, CLASS AS C;
+ERROR 1054 (42S22): Unknown column 'S.ID' in 'field list'
+mysql> SELECT s.ID, CLASS, SEC, NAME FROM STUDENT as s, CLASS as c;
+ERROR 1054 (42S22): Unknown column 's.ID' in 'field list'
+mysql> SELECT p.ID, CLASS, SEC, NAME FROM PUPIL as p, CLASS as c;
++------+-------+------+-------+
+| ID   | CLASS | SEC  | NAME  |
++------+-------+------+-------+
+| 1978 |    11 | A    | MAHI  |
+| 1977 |    11 | A    | NOOR  |
+| 1976 |    11 | A    | RIFAT |
+| 1978 |    12 | B    | MAHI  |
+| 1977 |    12 | B    | NOOR  |
+| 1976 |    12 | B    | RIFAT |
+| 1978 |    12 | C    | MAHI  |
+| 1977 |    12 | C    | NOOR  |
+| 1976 |    12 | C    | RIFAT |
++------+-------+------+-------+
+9 rows in set (0.00 sec)
+
+mysql> INSERT INTO PUPIL (ID) VALUES (1979), (1980);
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> TRUNCATE CLASS;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO CLASS (ID) SELECT ID FROM PUPIL;
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT* FROM PUPIL;
++------+-------+
+| ID   | NAME  |
++------+-------+
+| 1976 | RIFAT |
+| 1977 | NOOR  |
+| 1978 | MAHI  |
+| 1979 | NULL  |
+| 1980 | NULL  |
++------+-------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT* FROM CLASS;
++------+-------+------+
+| ID   | CLASS | SEC  |
++------+-------+------+
+| 1976 |  NULL | NULL |
+| 1977 |  NULL | NULL |
+| 1978 |  NULL | NULL |
+| 1979 |  NULL | NULL |
+| 1980 |  NULL | NULL |
++------+-------+------+
+5 rows in set (0.00 sec)
+
+mysql> NOTEE;
