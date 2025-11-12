@@ -1,0 +1,222 @@
+mysql> CREATE TABLE TRUNCATE (
+    -> COLUMN1 INT,
+    -> COLUMN2 VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SELECT * FROM BRANCH;
++-----------+-------------+
+| BRANCH_ID | BRANCH_NAME |
++-----------+-------------+
+|         1 | DHAKA       |
+|         2 | CHATTOGRAM  |
+|         3 | SYLHET      |
+|         4 | KHULNA      |
++-----------+-------------+
+4 rows in set (0.01 sec)
+
+mysql> TRUNCATE TABLE BRANCH;
+ERROR 1701 (42000): Cannot truncate a table referenced in a foreign key constraint (`iit`.`employee`, CONSTRAINT `employee_ibfk_1`)
+mysql> SELECT * FROM STUDENT;
++------------+--------------+-------------------+
+| STUDENT_ID | STUDENT_NAME | HALL_NAME         |
++------------+--------------+-------------------+
+|       1957 | TUHIN        | BHASHANI HALL     |
+|       1968 | HABIB        | KAZI NAZRUL HALL  |
+|       1977 | NOORA        | RAFIQ JABBER HALL |
+|       1982 | SIFAT        | SALAM BARKAT HALL |
++------------+--------------+-------------------+
+4 rows in set (0.00 sec)
+
+mysql> TRUNCATE TABLE STUDENT;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> SELECT * FROM STUDENT;
+Empty set (0.00 sec)
+
+mysql> DESC TABLE STUDENT;
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-------+
+| id | select_type | table   | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-------+
+|  1 | SIMPLE      | STUDENT | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    1 |   100.00 | NULL  |
++----+-------------+---------+------------+------+---------------+------+---------+------+------+----------+-------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> DESC STUDENT;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| STUDENT_ID   | int         | NO   | PRI | NULL    |       |
+| STUDENT_NAME | varchar(50) | YES  |     | NULL    |       |
+| HALL_NAME    | varchar(40) | YES  | MUL | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO (STUDENT_NAME, STUDENT_ID, HALL_NAME)
+    -> VALUES
+    -> ('NOORA', 1977, 'KAZI NAZRUL HALL'),
+    -> ('TUHIN', 1957, 'MOSHARRAF HALL'),
+    -> ('SIFAT', 1982, 'SALAM BARKAT HALL');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(STUDENT_NAME, STUDENT_ID, HALL_NAME)
+VALUES
+('NOORA', 1977, 'KAZI NAZRUL HALL')' at line 1
+mysql> INSERT INTO STUDENT (STUDENT_NAME, STUDENT_ID, HALL_NAME)
+    -> VALUES
+    -> ('NOORA', 1977, 'KAZI NAZRUL HALL'),
+    -> ('TUHIN', 1957, 'MOSHARRAF HALL'),
+    -> ('SIFAT', 1982, 'SALAM BARKAT HALL');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`iit`.`student`, CONSTRAINT `student_ibfk_1` FOREIGN KEY (`HALL_NAME`) REFERENCES `hall` (`HALL_NAME`))
+mysql> INSERT INTO TRUNCATE (COLUMN2, COLUMN1)
+    -> VALUES
+    -> ('RABONA', 12),
+    -> ('MADONNA', 23);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT* FROM TRUNCATE;
++---------+---------+
+| COLUMN1 | COLUMN2 |
++---------+---------+
+|      12 | RABONA  |
+|      23 | MADONNA |
++---------+---------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO TRUNCATE VALUES (33, 'ADORRA');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM TRUNCATE;
++---------+---------+
+| COLUMN1 | COLUMN2 |
++---------+---------+
+|      12 | RABONA  |
+|      23 | MADONNA |
+|      33 | ADORRA  |
++---------+---------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO TRUNCATE (COLUMN1, COLUMN2) VALUES (43, 'ZARIA');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO TRUNCATE (COLUMN1, COLUMN2) VALUES (65, 'JADON');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM TRUNCATE;
++---------+---------+
+| COLUMN1 | COLUMN2 |
++---------+---------+
+|      12 | RABONA  |
+|      23 | MADONNA |
+|      33 | ADORRA  |
+|      43 | ZARIA   |
+|      65 | JADON   |
++---------+---------+
+5 rows in set (0.00 sec)
+
+mysql> SHOW TABLE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> SHOW TRUNCATE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TRUNCATE' at line 1
+mysql> SHOW IIT;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IIT' at line 1
+mysql> SHOW TABLES;
++---------------+
+| Tables_in_iit |
++---------------+
+| branch        |
+| cust          |
+| customer      |
+| employee      |
+| hall          |
+| psychological |
+| student       |
+| test          |
+| test1         |
+| truncate      |
+| user          |
+| user_2        |
+| usertype      |
++---------------+
+13 rows in set (0.00 sec)
+
+mysql> SELECT* FROM TRUNCATE;
++---------+---------+
+| COLUMN1 | COLUMN2 |
++---------+---------+
+|      12 | RABONA  |
+|      23 | MADONNA |
+|      33 | ADORRA  |
+|      43 | ZARIA   |
+|      65 | JADON   |
++---------+---------+
+5 rows in set (0.00 sec)
+
+mysql> DELETE FROM STUDENT WHERE COLUMN1 = 33;
+ERROR 1054 (42S22): Unknown column 'COLUMN1' in 'where clause'
+mysql> DELETE FROM TRUNCATE WHERE COLUMN1 = 33;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT* FROM TRUNCATE;
++---------+---------+
+| COLUMN1 | COLUMN2 |
++---------+---------+
+|      12 | RABONA  |
+|      23 | MADONNA |
+|      43 | ZARIA   |
+|      65 | JADON   |
++---------+---------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT COLUMN1 FROM TRUNCATE;
++---------+
+| COLUMN1 |
++---------+
+|      12 |
+|      23 |
+|      43 |
+|      65 |
++---------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT COLUMN2, COLUMN1 FROM TRUNCATE;
++---------+---------+
+| COLUMN2 | COLUMN1 |
++---------+---------+
+| RABONA  |      12 |
+| MADONNA |      23 |
+| ZARIA   |      43 |
+| JADON   |      65 |
++---------+---------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE TRUNCATE SET COLUMN2 = 'ADORRA' WHERE COLUMN1 = 23;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM TRUNCATE;
++---------+---------+
+| COLUMN1 | COLUMN2 |
++---------+---------+
+|      12 | RABONA  |
+|      23 | ADORRA  |
+|      43 | ZARIA   |
+|      65 | JADON   |
++---------+---------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE TRUNCATE SET COLUMN2 = 'SPEED', COLUMN1 = 45 WHERE COLUMN1 = 23;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT* FROM TRUNCATE;
++---------+---------+
+| COLUMN1 | COLUMN2 |
++---------+---------+
+|      12 | RABONA  |
+|      45 | SPEED   |
+|      43 | ZARIA   |
+|      65 | JADON   |
++---------+---------+
+4 rows in set (0.00 sec)
+
+mysql> NOTEE;
